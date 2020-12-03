@@ -7,7 +7,7 @@ let currentColor = "#000000";
 
 function setup() {
     //建立一个396*396的画布
-    createCanvas(396, 396);
+    createCanvas(360, 396);
 
     //把画布颜色数组初始化为白色
     for (let i = 0; i < 400; i++) {
@@ -29,18 +29,14 @@ function draw() {
         fill(palette[i]);
         square(36 * i, 360, 36);
     }
-
-    //绘制功能区
-    fill(255);
-    rect(360, 0, 36, 396);
 }
 
 function mouseClicked() {
     //记录当前点击方块的横纵排序
     let _ver, _hor;
 
-    if (mouseX > 360) { //判断是否点击了功能区
-        saveCanvas("myPainting", "png");
+    if (mouseX > 360 || mouseY > 396) { //判断是否超出了画布范围
+        return false;
     } else if (mouseY > 360) { //是否点击了调色盘
         _hor = floor(mouseX / 36);
         currentColor = palette[_hor];
@@ -49,4 +45,13 @@ function mouseClicked() {
         _ver = floor(mouseX / 18);
         colors[_hor * 20 + _ver] = currentColor;
     }
+}
+
+function touchMoved() {
+    //记录当前点击方块的横纵排序
+    let _ver, _hor;
+
+    _hor = floor(mouseY / 18);
+    _ver = floor(mouseX / 18);
+    colors[_hor * 20 + _ver] = currentColor;
 }
